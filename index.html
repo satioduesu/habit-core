@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#f7f5ef">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Habit Core">
+    <title>Habit Core</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="date-label" id="todayLabel"></p>
+          <h1>Habit Core</h1>
+        </div>
+        <div class="score-ring" aria-label="今日の達成率">
+          <span id="rateValue">0%</span>
+        </div>
+      </header>
+
+      <section class="summary" aria-label="今日の状態">
+        <div>
+          <span class="summary-label">今日の達成</span>
+          <strong id="completeCount">0 / 0</strong>
+        </div>
+        <div>
+          <span class="summary-label">最長連続</span>
+          <strong id="bestStreak">0日</strong>
+        </div>
+      </section>
+
+      <form class="habit-form" id="habitForm">
+        <label for="habitInput">新しい習慣</label>
+        <div class="input-row">
+          <input id="habitInput" name="habit" type="text" maxlength="28" autocomplete="off" placeholder="例: 朝の散歩">
+          <button type="submit" aria-label="習慣を追加">追加</button>
+        </div>
+      </form>
+
+      <section class="habit-section" aria-label="習慣リスト">
+        <div class="section-head">
+          <h2>今日やること</h2>
+          <span id="habitCount">0件</span>
+        </div>
+        <ul class="habit-list" id="habitList"></ul>
+        <div class="empty-state" id="emptyState">
+          <strong>習慣をひとつ追加</strong>
+          <p>小さく続けられる行動から始めましょう。</p>
+        </div>
+      </section>
+    </main>
+    <script src="app.js" defer></script>
+  </body>
+</html>
