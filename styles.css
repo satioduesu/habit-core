@@ -1,12 +1,14 @@
 :root {
   color-scheme: light;
-  --bg: #f7f5ef;
+  --bg: #f8f6ef;
   --panel: #ffffff;
   --ink: #202124;
   --muted: #77736a;
   --line: #e5e0d7;
   --accent: #2f7d68;
   --accent-dark: #205b4d;
+  --spark: #e7b94f;
+  --lift: #4169a8;
   --warm: #d99b57;
   --danger: #b84a45;
   --shadow: 0 18px 40px rgba(47, 52, 44, 0.11);
@@ -26,7 +28,8 @@ body {
   margin: 0;
   color: var(--ink);
   background:
-    linear-gradient(180deg, rgba(47, 125, 104, 0.08), rgba(247, 245, 239, 0) 240px),
+    radial-gradient(circle at 14% 0%, rgba(231, 185, 79, 0.16), rgba(231, 185, 79, 0) 220px),
+    linear-gradient(180deg, rgba(47, 125, 104, 0.1), rgba(247, 245, 239, 0) 260px),
     var(--bg);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   letter-spacing: 0;
@@ -82,11 +85,13 @@ h1 {
   height: 76px;
   flex: 0 0 76px;
   place-items: center;
-  border: 9px solid rgba(47, 125, 104, 0.18);
-  border-top-color: var(--accent);
+  border: 0;
   border-radius: 50%;
-  background: var(--panel);
+  background:
+    radial-gradient(circle at center, var(--panel) 55%, transparent 56%),
+    conic-gradient(var(--accent) 0deg, rgba(47, 125, 104, 0.16) 0deg);
   box-shadow: var(--shadow);
+  transition: transform 180ms ease, filter 180ms ease;
 }
 
 .score-ring span {
@@ -94,9 +99,86 @@ h1 {
   font-weight: 800;
 }
 
+.score-ring.complete {
+  filter: drop-shadow(0 10px 18px rgba(231, 185, 79, 0.38));
+  transform: scale(1.04);
+}
+
+.focus-card {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 14px;
+  padding: 16px;
+  border: 1px solid rgba(47, 125, 104, 0.18);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(255, 251, 240, 0.92)),
+    var(--panel);
+  box-shadow: 0 14px 32px rgba(48, 49, 45, 0.08);
+}
+
+.focus-card::after {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--spark);
+  box-shadow: 0 0 0 7px rgba(231, 185, 79, 0.16);
+  content: "";
+}
+
+.focus-card.completed {
+  border-color: rgba(231, 185, 79, 0.55);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 243, 205, 0.96)),
+    var(--panel);
+}
+
+.focus-kicker {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--accent-dark);
+  font-size: 0.76rem;
+  font-weight: 850;
+}
+
+.focus-card strong {
+  display: block;
+  max-width: calc(100% - 28px);
+  font-size: 1.15rem;
+  line-height: 1.22;
+}
+
+.focus-card p {
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.progress-track {
+  overflow: hidden;
+  height: 9px;
+  margin-top: 14px;
+  border-radius: 999px;
+  background: rgba(47, 125, 104, 0.14);
+}
+
+.progress-track span {
+  display: block;
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent), var(--spark));
+  transition: width 240ms ease;
+}
+
 .summary {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
   margin-bottom: 16px;
 }
@@ -111,7 +193,7 @@ h1 {
 }
 
 .summary > div {
-  padding: 14px;
+  padding: 13px 11px;
 }
 
 .summary-label {
@@ -123,7 +205,9 @@ h1 {
 }
 
 .summary strong {
-  font-size: 1.35rem;
+  display: block;
+  font-size: 1.18rem;
+  white-space: nowrap;
 }
 
 .habit-form {
@@ -213,6 +297,13 @@ h1 {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fffdf9;
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease, background 180ms ease;
+}
+
+.habit-item.done {
+  border-color: rgba(47, 125, 104, 0.38);
+  background: linear-gradient(90deg, rgba(47, 125, 104, 0.08), #fffdf9 55%);
+  box-shadow: 0 10px 22px rgba(47, 125, 104, 0.12);
 }
 
 .check-button {
@@ -230,6 +321,7 @@ h1 {
   border-color: var(--accent);
   background: var(--accent);
   color: white;
+  animation: pop 220ms ease;
 }
 
 .habit-name {
@@ -244,6 +336,10 @@ h1 {
   color: var(--muted);
   font-size: 0.8rem;
   font-weight: 650;
+}
+
+.habit-item.done .habit-meta {
+  color: var(--accent-dark);
 }
 
 .delete-button {
@@ -265,6 +361,18 @@ h1 {
   padding: 24px 12px 18px;
   text-align: center;
   color: var(--muted);
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.9);
+  }
+  70% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .empty-state strong {
