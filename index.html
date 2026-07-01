@@ -24,6 +24,15 @@
         </div>
       </header>
 
+      <section class="focus-card" id="focusCard" aria-label="今日の集中状態">
+        <span class="focus-kicker" id="focusKicker">今日の自己規律</span>
+        <strong id="focusTitle">最初の一歩を切る</strong>
+        <p id="focusText">小さく始めるほど、続ける抵抗は下がります。</p>
+        <div class="progress-track" aria-hidden="true">
+          <span id="progressFill"></span>
+        </div>
+      </section>
+
       <section class="summary" aria-label="今日の状態">
         <div>
           <span class="summary-label">今日の達成</span>
@@ -32,6 +41,10 @@
         <div>
           <span class="summary-label">最長連続</span>
           <strong id="bestStreak">0日</strong>
+        </div>
+        <div>
+          <span class="summary-label">完了まで</span>
+          <strong id="remainingCount">0</strong>
         </div>
       </section>
 
