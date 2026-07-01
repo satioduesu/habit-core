@@ -1,4 +1,4 @@
-const CACHE_NAME = "habit-core-v1";
+const CACHE_NAME = "habit-core-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
