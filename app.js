@@ -13,6 +13,12 @@ const completeCount = document.querySelector("#completeCount");
 const bestStreak = document.querySelector("#bestStreak");
 const habitCount = document.querySelector("#habitCount");
 const todayLabel = document.querySelector("#todayLabel");
+const remainingCount = document.querySelector("#remainingCount");
+const focusCard = document.querySelector("#focusCard");
+const focusKicker = document.querySelector("#focusKicker");
+const focusTitle = document.querySelector("#focusTitle");
+const focusText = document.querySelector("#focusText");
+const progressFill = document.querySelector("#progressFill");
 
 const dateKey = (date = new Date()) => {
   const year = date.getFullYear();
@@ -73,12 +79,37 @@ const completedToday = () => {
 const renderSummary = () => {
   const total = state.habits.length;
   const complete = completedToday();
+  const remaining = Math.max(total - complete, 0);
   const rate = total === 0 ? 0 : Math.round((complete / total) * 100);
 
   rateValue.textContent = `${rate}%`;
   completeCount.textContent = `${complete} / ${total}`;
   bestStreak.textContent = `${bestCurrentStreak()}日`;
   habitCount.textContent = `${total}件`;
+  remainingCount.textContent = total === 0 ? "設定" : `${remaining}`;
+  progressFill.style.width = `${rate}%`;
+  document.querySelector(".score-ring").style.background =
+    `radial-gradient(circle at center, var(--panel) 55%, transparent 56%), conic-gradient(var(--accent) ${rate * 3.6}deg, rgba(47, 125, 104, 0.16) 0deg)`;
+  document.querySelector(".score-ring").classList.toggle("complete", total > 0 && complete === total);
+  focusCard.classList.toggle("completed", total > 0 && complete === total);
+
+  if (total === 0) {
+    focusKicker.textContent = "今日の自己規律";
+    focusTitle.textContent = "まずは一つだけ決める";
+    focusText.textContent = "小さく始めるほど、続ける抵抗は下がります。";
+  } else if (complete === 0) {
+    focusKicker.textContent = `${total}個の行動を準備済み`;
+    focusTitle.textContent = "最初のチェックで流れを作る";
+    focusText.textContent = "一つ終えるだけで、今日の自分は動き始めます。";
+  } else if (complete < total) {
+    focusKicker.textContent = `あと${remaining}個で完了`;
+    focusTitle.textContent = "勢いが出ている";
+    focusText.textContent = "今の流れを切らずに、次の小さな勝ちを取りにいきましょう。";
+  } else {
+    focusKicker.textContent = "本日の規律クリア";
+    focusTitle.textContent = "今日の自分に勝った";
+    focusText.textContent = "この積み上げが、明日の開始ラインを上げます。";
+  }
 };
 
 const renderHabits = () => {
